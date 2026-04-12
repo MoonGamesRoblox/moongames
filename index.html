@@ -1,240 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moon Games | Premium Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #f4bf08;
-      --primary-glow: rgba(244, 191, 8, 0.4);
-      --bg: #0a0a0c;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon Games | Eternal Nebula</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #f4bf08;
+            --neon-glow: rgba(244, 191, 8, 0.4);
+            --bg: #030305;
+            --panel: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.07);
+        }
 
-    * { box-sizing: border-box; outline: none; transition: all 0.3s ease; }
-    html { scroll-behavior: smooth; }
-    body { 
-      margin: 0; 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-      background: var(--bg); 
-      color: var(--text);
-      background-image: radial-gradient(circle at 50% -20%, #1e1e24 0%, #0a0a0c 100%);
-      min-height: 100vh;
-    }
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { 
+            margin: 0; font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: white;
+            min-height: 100vh; overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a00 0%, #030305 100%);
+        }
 
-    /* Navbar */
-    .nav {
-      position: sticky; top: 20px; z-index: 100;
-      max-width: 1100px; margin: 0 auto;
-      background: rgba(10, 10, 12, 0.8);
-      backdrop-filter: blur(15px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 24px;
-    }
-    .nav-brand { font-weight: 800; font-size: 20px; color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-    .nav-links a { 
-      text-decoration: none; color: rgba(255,255,255,0.6); 
-      font-weight: 600; font-size: 14px; margin-left: 20px;
-    }
-    .nav-links a:hover { color: var(--primary); }
+        /* Navigasyon */
+        .navbar {
+            padding: 25px 50px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--neon); letter-spacing: 4px; text-shadow: 0 0 15px var(--neon-glow); }
 
-    /* Container & Layout */
-    .container { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
-    .hero { text-align: center; margin-bottom: 80px; }
-    .hero h1 { font-size: 64px; font-weight: 800; margin: 0; letter-spacing: -2px; }
-    .hero span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
+        .container { max-width: 1300px; margin: 60px auto; padding: 0 30px; display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 40px; }
 
-    .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+        /* Panel Stilleri */
+        .glass-panel {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 35px; padding: 45px; backdrop-filter: blur(15px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
 
-    /* Card & Components */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      padding: 30px;
-      backdrop-filter: blur(10px);
-    }
+        /* Canlı Sohbet Akışı */
+        #chatFlow {
+            height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
+            padding-right: 20px; margin-bottom: 35px; scrollbar-width: none;
+        }
+        .msg { padding: 18px 25px; border-radius: 22px; max-width: 80%; animation: slideUp 0.4s ease; }
+        .msg-other { background: rgba(255,255,255,0.05); align-self: flex-start; border-left: 3px solid var(--neon); }
+        .msg-me { 
+            background: var(--neon); color: black; align-self: flex-end; 
+            font-weight: 700; box-shadow: 0 10px 25px var(--neon-glow);
+        }
+        .msg b { display: block; font-size: 10px; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; opacity: 0.8; }
 
-    /* Chat Section */
-    #chatFlow {
-      height: 400px; overflow-y: auto;
-      display: flex; flex-direction: column; gap: 12px;
-      padding-right: 10px; margin-bottom: 20px;
-      scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
-    }
-    .msg { 
-      padding: 12px 18px; border-radius: 20px; font-size: 14px; max-width: 85%;
-      animation: fadeIn 0.4s ease forwards;
-    }
-    .msg-other { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; }
-    .msg-me { background: var(--primary); color: #000; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
-    .msg b { display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; opacity: 0.7; }
+        /* Girdi Alanları */
+        .input-box { display: flex; gap: 15px; }
+        input, textarea {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            padding: 20px; border-radius: 18px; color: white; font-family: inherit; font-size: 15px;
+        }
+        input:focus { border-color: var(--neon); box-shadow: 0 0 20px var(--neon-glow); }
+        
+        .glow-btn {
+            background: var(--neon); color: black; border: none; padding: 18px 45px;
+            border-radius: 18px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .glow-btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 35px var(--neon); }
 
-    /* Inputs & Buttons */
-    .input-group { display: flex; gap: 10px; }
-    input, textarea {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px; color: white;
-      font-family: inherit;
-    }
-    input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
-    
-    .btn {
-      background: var(--primary); color: #000;
-      border: none; border-radius: 16px;
-      padding: 14px 28px; font-weight: 800;
-      cursor: pointer; box-shadow: 0 4px 15px var(--primary-glow);
-    }
-    .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+        /* Admin Intelligence */
+        #adminPanel { display: none; margin-top: 50px; grid-column: span 2; border-top: 2px solid var(--neon); }
+        .app-card { background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .app-header { padding: 25px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; color: var(--neon); }
+        .app-content { padding: 0 25px; max-height: 0; overflow: hidden; opacity: 0; }
+        .app-card.active .app-content { padding: 25px; max-height: 600px; opacity: 1; border-top: 1px solid var(--border); }
 
-    /* Admin Accordion */
-    #adminPanel { display: none; margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
-    .acc-item { 
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 16px; margin-bottom: 10px; overflow: hidden;
-    }
-    .acc-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; }
-    .acc-header:hover { background: rgba(255,255,255,0.08); }
-    .acc-content { padding: 0 16px; max-height: 0; overflow: hidden; color: #aaa; font-size: 14px; }
-    .acc-item.active .acc-content { padding: 16px; max-height: 300px; border-top: 1px solid var(--border); }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
 
-  <div class="nav">
-    <div class="nav-brand">MOON GAMES</div>
-    <div class="nav-links">
-      <a href="#trading">Trading</a>
-      <a href="#staff">Apply</a>
-      <a href="javascript:void(0)" onclick="authAdmin()">Panel</a>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="hero">
-      <h1>THE <span>UNIVERSE</span> IS YOURS</h1>
-      <p style="opacity: 0.5;">Trade items, join the staff, and rule the moon.</p>
-    </div>
-
-    <div class="grid">
-      <div class="card" id="trading">
-        <h2 style="margin-top:0">Global Trade Chat</h2>
-        <div id="chatFlow"></div>
-        <div class="input-group">
-          <input type="text" id="chatName" placeholder="Nick" style="width: 100px;">
-          <input type="text" id="chatText" placeholder="Drop a trade offer...">
-          <button class="btn" onclick="sendMsg()">Send</button>
+    <nav class="navbar">
+        <div class="logo">MOON // ETERNAL</div>
+        <div style="display:flex; gap:35px;">
+            <a href="javascript:void(0)" onclick="authAdmin()" style="color:var(--neon); text-decoration:none; font-family:'Orbitron'; font-size:12px;">[ ACCESS_CORE ]</a>
         </div>
-      </div>
+    </nav>
 
-      <div class="card" id="staff">
-        <h2 style="margin-top:0">Join the Team</h2>
-        <form id="staffForm">
-          <input type="text" id="rName" placeholder="Roblox Username" style="width:100%; margin-bottom:12px;" required>
-          <input type="number" id="rAge" placeholder="Age" style="width:100%; margin-bottom:12px;" required>
-          <textarea id="rWhy" placeholder="Why should we hire you?" rows="4" style="width:100%; margin-bottom:12px;" required></textarea>
-          <button type="submit" class="btn" style="width:100%">Submit App</button>
-        </form>
-      </div>
+    <div class="container">
+        <div class="glass-panel" id="trading">
+            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">COMMUNICATION_LINK</h2>
+            <div id="chatFlow"></div>
+            <div class="input-box">
+                <input type="text" id="chatName" placeholder="USER_ID" style="width:140px;">
+                <input type="text" id="chatText" placeholder="ENCRYPTED TRANSMISSION..." style="flex:1;">
+                <button class="glow-btn" onclick="sendMsg()">SEND</button>
+            </div>
+        </div>
+
+        <div class="glass-panel" id="staff">
+            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">STAFF_APPLICATION</h2>
+            <form id="staffForm">
+                <input type="text" id="rName" placeholder="ROBLOX_NAME" style="width:100%; margin-bottom:20px;" required>
+                <input type="number" id="rAge" placeholder="AGE_LEVEL" style="width:100%; margin-bottom:20px;" required>
+                <textarea id="rWhy" placeholder="SKILLS AND EXPERIENCE..." rows="7" style="width:100%; margin-bottom:25px;" required></textarea>
+                <button type="submit" class="glow-btn" style="width:100%">UPLOAD TO NEBULA</button>
+            </form>
+        </div>
+
+        <div id="adminPanel" class="glass-panel">
+            <h2 style="color:var(--neon); font-family:'Orbitron';">ARCHIVED_INTELLIGENCE</h2>
+            <div id="adminContent"></div>
+        </div>
     </div>
 
-    <div id="adminPanel" class="card">
-      <h2 style="color: var(--primary)">Admin Dashboard</h2>
-      <div id="adminContent"></div>
-    </div>
-  </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        // Senin Bilgilerin (Güncellendi)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkLKenWijQCm00UwdNmrZtRzJWA0nw8yo",
+            authDomain: "moongameshub-23c01.firebaseapp.com",
+            databaseURL: "https://moongameshub-23c01-default-rtdb.firebaseio.com",
+            projectId: "moongameshub-23c01",
+            storageBucket: "moongameshub-23c01.firebasestorage.app",
+            messagingSenderId: "491534485312",
+            appId: "1:491534485312:web:19fd3a4f0b306b9bcddca5"
+        };
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDkLKenWijQCm00UwdNmrZtRzJWA0nw8yo",
-      authDomain: "moongameshub-23c01.firebaseapp.com",
-      databaseURL: "https://moongameshub-23c01-default-rtdb.firebaseio.com",
-      projectId: "moongameshub-23c01",
-      storageBucket: "moongameshub-23c01.firebasestorage.app",
-      messagingSenderId: "491534485312",
-      appId: "1:491534485312:web:19fd3a4f0b306b9bcddca5"
-    };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        // Küresel Mesaj Gönderme
+        window.sendMsg = function() {
+            const name = document.getElementById('chatName').value || 'GUEST';
+            const text = document.getElementById('chatText').value;
+            if(text.trim()) {
+                push(ref(db, 'messages'), { 
+                    user: name, 
+                    msg: text, 
+                    ts: Date.now() 
+                });
+                document.getElementById('chatText').value = '';
+            }
+        };
 
-    // Chat Functions
-    window.sendMsg = function() {
-      const name = document.getElementById('chatName').value || 'Guest';
-      const text = document.getElementById('chatText').value;
-      if(text.trim() !== "") {
-        push(ref(db, 'messages'), { user: name, msg: text, ts: Date.now() });
-        document.getElementById('chatText').value = '';
-      }
-    };
+        // Veriyi Dinleme (Herkes için Canlı)
+        onChildAdded(ref(db, 'messages'), (snap) => {
+            const data = snap.val();
+            const chat = document.getElementById('chatFlow');
+            const div = document.createElement('div');
+            const isMe = data.user === document.getElementById('chatName').value;
+            
+            div.className = `msg ${isMe ? 'msg-me' : 'msg-other'}`;
+            div.innerHTML = `<b>${data.user}</b> ${data.msg}`;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+        });
 
-    onChildAdded(ref(db, 'messages'), (snap) => {
-      const data = snap.val();
-      const chat = document.getElementById('chatFlow');
-      const div = document.createElement('div');
-      const isMe = data.user === document.getElementById('chatName').value;
-      div.className = `msg ${isMe ? 'msg-me' : 'msg-other'}`;
-      div.innerHTML = `<b>${data.user}</b>${data.msg}`;
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-    });
+        // Başvuru İşlemi
+        document.getElementById('staffForm').onsubmit = function(e) {
+            e.preventDefault();
+            push(ref(db, 'apps'), {
+                user: document.getElementById('rName').value,
+                age: document.getElementById('rAge').value,
+                why: document.getElementById('rWhy').value,
+                time: new Date().toLocaleString()
+            }).then(() => {
+                alert("TRANSMISSION COMPLETE!");
+                this.reset();
+            });
+        };
 
-    // Staff Application
-    document.getElementById('staffForm').onsubmit = function(e) {
-      e.preventDefault();
-      push(ref(db, 'apps'), {
-        user: document.getElementById('rName').value,
-        age: document.getElementById('rAge').value,
-        why: document.getElementById('rWhy').value,
-        time: new Date().toLocaleString()
-      }).then(() => {
-        alert("Application sent to the Moon!");
-        this.reset();
-      });
-    };
+        // Admin Girişi
+        window.authAdmin = function() {
+            if(prompt("SECURE_KEY:") === "moon123") {
+                document.getElementById('adminPanel').style.display = 'block';
+                loadApps();
+                window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+            }
+        };
 
-    // Admin Access
-    window.authAdmin = function() {
-      if(prompt("Admin Key:") === "moon123") {
-        document.getElementById('adminPanel').style.display = 'block';
-        loadApps();
-        window.scrollTo(0, document.body.scrollHeight);
-      }
-    };
-
-    function loadApps() {
-      const cont = document.getElementById('adminContent');
-      cont.innerHTML = ""; 
-      onChildAdded(ref(db, 'apps'), (snap) => {
-        const val = snap.val();
-        const item = document.createElement('div');
-        item.className = 'acc-item';
-        item.innerHTML = `
-          <div class="acc-header" onclick="this.parentElement.classList.toggle('active')">
-            <span>👤 ${val.user}</span> <span>Explore ⚡</span>
-          </div>
-          <div class="acc-content">
-            <p><strong>Age:</strong> ${val.age}</p>
-            <p><strong>Motivation:</strong> ${val.why}</p>
-            <p style="font-size:10px; opacity:0.5">${val.time}</p>
-          </div>
-        `;
-        cont.prepend(item);
-      });
-    }
-  </script>
+        function loadApps() {
+            const cont = document.getElementById('adminContent');
+            cont.innerHTML = "";
+            onChildAdded(ref(db, 'apps'), (snap) => {
+                const val = snap.val();
+                const item = document.createElement('div');
+                item.className = 'app-card';
+                item.innerHTML = `
+                    <div class="app-header" onclick="this.parentElement.classList.toggle('active')">
+                        <span>SOURCE: ${val.user}</span> <span>DECRYPT_FILE</span>
+                    </div>
+                    <div class="app-content">
+                        <p><strong>LEVEL:</strong> ${val.age}</p>
+                        <p><strong>DOSSIER:</strong><br>${val.why}</p>
+                        <p style="font-size:10px; opacity:0.4; margin-top:20px;">TIMESTAMP: ${val.time}</p>
+                    </div>
+                `;
+                cont.prepend(item);
+            });
+        }
+    </script>
 </body>
 </html>
