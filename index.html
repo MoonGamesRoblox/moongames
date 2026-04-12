@@ -354,7 +354,7 @@
       height: 100%;
       object-fit: cover;
     }
-
+    
     .badge-stack {
       position: absolute;
       right: 12px;
@@ -481,7 +481,7 @@
     .dark .hero::before {
       background-image:
         linear-gradient(rgba(20, 17, 5, 0.78), rgba(20, 17, 5, 0.78)),
-        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80');
+        url('https://cdn.discordapp.com/attachments/1322634269486612502/1492893276699889674/d5ee61e1-fd1c-492e-a9af-e263dd4e3724.png?ex=69dcfcb5&is=69dbab35&hm=cf84f2bad3bd0ecc1708392945eca8531f598ac4b79740dd97f96fb7820b31a3&');
     }
 
     .dark .hero p,
@@ -624,17 +624,17 @@
           </div>
           <div class="stat-card">
             <div class="stat-icon">👑</div>
-            <div class="stat-number" id="totalVisits">0</div>
+            <div class="stat-number" id="totalVisits">118.8M</div>
             <div class="stat-label">Total Lifetime Visits</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">💛</div>
-            <div class="stat-number" id="totalFavorites">0</div>
+            <div class="stat-number" id="totalFavorites">3.4M</div>
             <div class="stat-label">Total Favorites</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">👥</div>
-            <div class="stat-number" id="groupMembers">0</div>
+            <div class="stat-number" id="groupMembers">911.3K</div>
             <div class="stat-label">Group Members</div>
           </div>
         </div>
@@ -674,8 +674,7 @@
   <script>
     const CONFIG = {
       mainGameUrl: 'https://www.roblox.com/tr/games/112991977606907/Tap-Horizons',
-      robloxGroupUrl: 'https://www.roblox.com/tr/games/112991977606907/Tap-Horizons',
-      groupMembers: 0,
+      robloxGroupUrl: 'https://www.roblox.com/tr/communities/865404797/MoonStudioReal#!/about',
       refreshIntervalMs: 60000,
       games: [
         {
@@ -683,17 +682,10 @@
           creator: 'By Moon Games',
           gameUrl: 'https://www.roblox.com/tr/games/112991977606907/Tap-Horizons',
           image: 'https://cdn.discordapp.com/attachments/1492648692019236977/1492648754896044042/image.png?ex=69dcc1bb&is=69db703b&hm=91000f42fc7ceec924791917041fbc59164c9647a17f505b5975637ce96fd140&',
-          active: '0',
-          visits: '0'
+          active: '6.0K',
+          visits: '118.8M'
         }
       ],
-
-      /*
-        GitHub Pages üzerinde gerçek Roblox canlı veri almak için doğrudan resmi API kullanımı genelde CORS yüzünden çalışmaz.
-        Bu yüzden en temiz yöntem küçük bir proxy/backend kullanmaktır.
-        Eğer sonra istersen sana Cloudflare Worker veya Vercel API ile gerçek canlı sistem de kurarım.
-        Aşağıdaki alanı şimdilik elle doldurabiliriz.
-      */
       liveStats: {
         activePlayers: '6.0K',
         totalGames: 1,
