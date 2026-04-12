@@ -21,7 +21,6 @@
             background-image: radial-gradient(circle at 50% 0%, #1a1a00 0%, #030305 100%);
         }
 
-        /* Navigasyon */
         .navbar {
             padding: 25px 50px; display: flex; justify-content: space-between; align-items: center;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px);
@@ -31,19 +30,17 @@
 
         .container { max-width: 1300px; margin: 60px auto; padding: 0 30px; display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 40px; }
 
-        /* Panel Stilleri */
         .glass-panel {
             background: var(--panel); border: 1px solid var(--border);
             border-radius: 35px; padding: 45px; backdrop-filter: blur(15px);
             box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
-        /* Canlı Sohbet Akışı */
         #chatFlow {
             height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
             padding-right: 20px; margin-bottom: 35px; scrollbar-width: none;
         }
-        .msg { padding: 18px 25px; border-radius: 22px; max-width: 80%; animation: slideUp 0.4s ease; }
+        .msg { padding: 18px 25px; border-radius: 22px; max-width: 80%; animation: slideUp 0.4s ease; border: 1px solid transparent; }
         .msg-other { background: rgba(255,255,255,0.05); align-self: flex-start; border-left: 3px solid var(--neon); }
         .msg-me { 
             background: var(--neon); color: black; align-self: flex-end; 
@@ -51,7 +48,6 @@
         }
         .msg b { display: block; font-size: 10px; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 2px; opacity: 0.8; }
 
-        /* Girdi Alanları */
         .input-box { display: flex; gap: 15px; }
         input, textarea {
             background: rgba(0,0,0,0.4); border: 1px solid var(--border);
@@ -66,12 +62,7 @@
         }
         .glow-btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 35px var(--neon); }
 
-        /* Admin Intelligence */
-        #adminPanel { display: none; margin-top: 50px; grid-column: span 2; border-top: 2px solid var(--neon); }
-        .app-card { background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .app-header { padding: 25px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; color: var(--neon); }
-        .app-content { padding: 0 25px; max-height: 0; overflow: hidden; opacity: 0; }
-        .app-card.active .app-content { padding: 25px; max-height: 600px; opacity: 1; border-top: 1px solid var(--border); }
+        #adminPanel { display: none; margin-top: 50px; grid-column: span 2; border-top: 2px solid var(--neon); padding-top: 30px; }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -79,44 +70,43 @@
 <body>
 
     <nav class="navbar">
-        <div class="logo">MOON // ETERNAL</div>
+        <div class="logo">MOON // HUB</div>
         <div style="display:flex; gap:35px;">
-            <a href="javascript:void(0)" onclick="authAdmin()" style="color:var(--neon); text-decoration:none; font-family:'Orbitron'; font-size:12px;">[ ACCESS_CORE ]</a>
+            <a href="javascript:void(0)" onclick="authAdmin()" style="color:var(--neon); text-decoration:none; font-family:'Orbitron'; font-size:12px;">[ ADMIN_CORE ]</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="glass-panel" id="trading">
-            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">COMMUNICATION_LINK</h2>
+            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">LIVE_CHAT</h2>
             <div id="chatFlow"></div>
             <div class="input-box">
-                <input type="text" id="chatName" placeholder="USER_ID" style="width:140px;">
-                <input type="text" id="chatText" placeholder="ENCRYPTED TRANSMISSION..." style="flex:1;">
+                <input type="text" id="chatName" placeholder="NICK">
+                <input type="text" id="chatText" placeholder="TRANSMIT MESSAGE..." style="flex:1;">
                 <button class="glow-btn" onclick="sendMsg()">SEND</button>
             </div>
         </div>
 
         <div class="glass-panel" id="staff">
-            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">STAFF_APPLICATION</h2>
+            <h2 style="font-family:'Orbitron'; font-size:18px; margin-top:0;">APPLY_STAFF</h2>
             <form id="staffForm">
-                <input type="text" id="rName" placeholder="ROBLOX_NAME" style="width:100%; margin-bottom:20px;" required>
-                <input type="number" id="rAge" placeholder="AGE_LEVEL" style="width:100%; margin-bottom:20px;" required>
-                <textarea id="rWhy" placeholder="SKILLS AND EXPERIENCE..." rows="7" style="width:100%; margin-bottom:25px;" required></textarea>
-                <button type="submit" class="glow-btn" style="width:100%">UPLOAD TO NEBULA</button>
+                <input type="text" id="rName" placeholder="ROBLOX_USER" style="width:100%; margin-bottom:20px;" required>
+                <textarea id="rWhy" placeholder="SKILLS..." rows="5" style="width:100%; margin-bottom:25px;" required></textarea>
+                <button type="submit" class="glow-btn" style="width:100%">SUBMIT</button>
             </form>
         </div>
 
         <div id="adminPanel" class="glass-panel">
-            <h2 style="color:var(--neon); font-family:'Orbitron';">ARCHIVED_INTELLIGENCE</h2>
+            <h2 style="color:var(--neon); font-family:'Orbitron';">DATABASE_LOGS</h2>
             <div id="adminContent"></div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, onChildAdded, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Senin Bilgilerin (Güncellendi)
+        // Senin Bilgilerin
         const firebaseConfig = {
             apiKey: "AIzaSyDkLKenWijQCm00UwdNmrZtRzJWA0nw8yo",
             authDomain: "moongameshub-23c01.firebaseapp.com",
@@ -130,76 +120,51 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Küresel Mesaj Gönderme
-        window.sendMsg = function() {
-            const name = document.getElementById('chatName').value || 'GUEST';
-            const text = document.getElementById('chatText').value;
-            if(text.trim()) {
-                push(ref(db, 'messages'), { 
-                    user: name, 
-                    msg: text, 
-                    ts: Date.now() 
-                });
-                document.getElementById('chatText').value = '';
-            }
-        };
-
-        // Veriyi Dinleme (Herkes için Canlı)
-        onChildAdded(ref(db, 'messages'), (snap) => {
+        // KANCA KRİTİK NOKTA: Veriyi dinleme fonksiyonunu en başa aldım.
+        const chatRef = ref(db, 'messages');
+        
+        // Bu fonksiyon veritabanına her yeni veri eklendiğinde HERKESTE çalışır.
+        onChildAdded(chatRef, (snap) => {
             const data = snap.val();
             const chat = document.getElementById('chatFlow');
             const div = document.createElement('div');
-            const isMe = data.user === document.getElementById('chatName').value;
+            const currentNick = document.getElementById('chatName').value;
             
-            div.className = `msg ${isMe ? 'msg-me' : 'msg-other'}`;
+            div.className = `msg ${data.user === currentNick ? 'msg-me' : 'msg-other'}`;
             div.innerHTML = `<b>${data.user}</b> ${data.msg}`;
             chat.appendChild(div);
             chat.scrollTop = chat.scrollHeight;
         });
 
-        // Başvuru İşlemi
+        window.sendMsg = function() {
+            const name = document.getElementById('chatName').value || 'Guest';
+            const text = document.getElementById('chatText').value;
+            if(text.trim()) {
+                push(chatRef, { user: name, msg: text, ts: Date.now() });
+                document.getElementById('chatText').value = '';
+            }
+        };
+
         document.getElementById('staffForm').onsubmit = function(e) {
             e.preventDefault();
             push(ref(db, 'apps'), {
                 user: document.getElementById('rName').value,
-                age: document.getElementById('rAge').value,
                 why: document.getElementById('rWhy').value,
                 time: new Date().toLocaleString()
-            }).then(() => {
-                alert("TRANSMISSION COMPLETE!");
-                this.reset();
-            });
+            }).then(() => { alert("Application Transmitted!"); this.reset(); });
         };
 
-        // Admin Girişi
         window.authAdmin = function() {
-            if(prompt("SECURE_KEY:") === "moon123") {
+            if(prompt("KEY:") === "moon123") {
                 document.getElementById('adminPanel').style.display = 'block';
-                loadApps();
-                window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+                const cont = document.getElementById('adminContent');
+                cont.innerHTML = "";
+                onChildAdded(ref(db, 'apps'), (snap) => {
+                    const v = snap.val();
+                    cont.innerHTML += `<div style="padding:10px; border-bottom:1px solid #444;"><b>${v.user}</b>: ${v.why}</div>`;
+                });
             }
         };
-
-        function loadApps() {
-            const cont = document.getElementById('adminContent');
-            cont.innerHTML = "";
-            onChildAdded(ref(db, 'apps'), (snap) => {
-                const val = snap.val();
-                const item = document.createElement('div');
-                item.className = 'app-card';
-                item.innerHTML = `
-                    <div class="app-header" onclick="this.parentElement.classList.toggle('active')">
-                        <span>SOURCE: ${val.user}</span> <span>DECRYPT_FILE</span>
-                    </div>
-                    <div class="app-content">
-                        <p><strong>LEVEL:</strong> ${val.age}</p>
-                        <p><strong>DOSSIER:</strong><br>${val.why}</p>
-                        <p style="font-size:10px; opacity:0.4; margin-top:20px;">TIMESTAMP: ${val.time}</p>
-                    </div>
-                `;
-                cont.prepend(item);
-            });
-        }
     </script>
 </body>
 </html>
