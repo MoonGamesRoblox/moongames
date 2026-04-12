@@ -1,205 +1,298 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Moon Games | Yönetim & Deneyim</title>
+  <title>Moon Games | Global Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f4f4f4;
-      --card: #f7f2e7;
-      --text: #111111;
+      --bg: #f8f9fa;
       --yellow: #f4bf08;
-      --border: #f0c84a;
-      --shadow: 0 10px 25px rgba(244, 191, 8, 0.18);
+      --dark: #121212;
+      --border: #e2e2e2;
+      --shadow: 0 8px 30px rgba(0,0,0,0.05);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; outline: none; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+    body { 
+      margin: 0; 
+      font-family: 'Inter', sans-serif; 
+      background: var(--bg); 
+      color: var(--dark);
+      line-height: 1.6;
+    }
 
-    /* Navigasyon */
-    .header-wrap { position: sticky; top: 0; z-index: 1000; padding: 10px; background: rgba(244,244,244,0.8); backdrop-filter: blur(10px); }
-    .nav-bar { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 10px 20px; border-radius: 50px; border: 2px solid var(--border); box-shadow: var(--shadow); }
-    .logo img { width: 60px; height: auto; }
-    .nav-links { display: flex; gap: 10px; }
-    .nav-links a { padding: 10px 18px; border-radius: 20px; font-weight: 800; font-size: 14px; color: #555; transition: 0.3s; cursor: pointer; text-decoration: none; }
+    /* Modern Navigation */
+    header {
+      position: sticky;
+      top: 20px;
+      z-index: 1000;
+      padding: 0 20px;
+    }
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 25px;
+      box-shadow: var(--shadow);
+    }
+    .logo img { height: 45px; border-radius: 50%; }
+    .nav-links { display: flex; gap: 15px; }
+    .nav-links a { 
+      text-decoration: none; 
+      color: #555; 
+      font-weight: 700; 
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: 0.3s;
+    }
     .nav-links a:hover, .nav-links a.active { background: var(--yellow); color: #000; }
 
-    /* Hero */
-    .hero { padding: 80px 20px; text-align: center; background: linear-gradient(rgba(255,248,227,0.8), rgba(255,248,227,0.8)), url('https://cdn.discordapp.com/attachments/1322634269486612502/1492893276699889674/d5ee61e1-fd1c-492e-a9af-e263dd4e3724.png') center/cover; }
-    .hero h1 { font-size: clamp(30px, 5vw, 60px); font-weight: 900; margin: 0; }
-    .hero-btns { margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-    
-    .btn { padding: 15px 30px; border-radius: 15px; font-weight: 800; border: none; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-block; }
-    .btn-main { background: var(--yellow); color: #000; box-shadow: var(--shadow); }
-    .btn-sub { background: #fff; border: 2px solid var(--border); color: #000; }
+    /* Hero Section */
+    .hero {
+      padding: 120px 20px 60px;
+      text-align: center;
+      background: radial-gradient(circle at top, #fff9e6 0%, #f8f9fa 100%);
+    }
+    .hero h1 { font-size: clamp(40px, 8vw, 75px); font-weight: 900; letter-spacing: -2px; margin-bottom: 20px; }
+    .btn-group { display: flex; gap: 15px; justify-content: center; margin-top: 30px; }
+    .btn { 
+      padding: 16px 35px; 
+      border-radius: 14px; 
+      font-weight: 800; 
+      text-decoration: none; 
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--yellow); color: #000; box-shadow: 0 4px 15px rgba(244, 191, 8, 0.4); }
+    .btn-secondary { background: #fff; border: 1px solid var(--border); color: #000; }
     .btn:hover { transform: translateY(-3px); }
 
-    /* Trading Chat */
-    .section { padding: 60px 20px; max-width: 1000px; margin: 0 auto; }
-    .chat-box { background: #fff; border: 2px solid var(--border); border-radius: 30px; overflow: hidden; height: 450px; display: flex; flex-direction: column; }
-    .chat-msgs { flex: 1; padding: 20px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
-    .msg { padding: 12px; border-radius: 15px; font-size: 14px; max-width: 80%; }
-    .msg-in { background: #eee; align-self: flex-start; }
-    .msg-out { background: var(--yellow); align-self: flex-end; }
-    .chat-input { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #eee; }
-    .chat-input input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ddd; }
+    /* Trading Chat (Public Simulation) */
+    .section { max-width: 900px; margin: 80px auto; padding: 0 20px; }
+    .chat-wrapper {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .chat-header { background: #fafafa; padding: 15px 25px; border-bottom: 1px solid var(--border); font-weight: 800; display: flex; justify-content: space-between; }
+    .chat-messages { height: 400px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .message { padding: 12px 18px; border-radius: 18px; font-size: 14px; max-width: 75%; position: relative; }
+    .msg-other { background: #f1f1f1; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg-me { background: var(--yellow); align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg-info { font-size: 10px; font-weight: 900; display: block; margin-bottom: 4px; text-transform: uppercase; opacity: 0.6; }
 
-    /* Forms */
-    .form-card { background: var(--card); padding: 30px; border-radius: 30px; border: 2px solid var(--border); }
-    .field { margin-bottom: 15px; }
-    .field label { display: block; font-weight: 800; margin-bottom: 5px; }
-    .field input, .field textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-family: inherit; }
+    .chat-input { padding: 15px 25px; display: flex; gap: 10px; background: #fff; border-top: 1px solid var(--border); }
+    .chat-input input { flex: 1; border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: inherit; }
 
-    /* Admin Panel */
-    #adminPanel { display: none; background: #1a1a1a; color: #fff; padding: 30px; border-radius: 30px; margin-top: 20px; }
-    .app-item { background: #333; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 5px solid var(--yellow); }
+    /* Staff Applications (Modern Accordion) */
+    .app-form { background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 40px; }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; }
+    .field input, .field textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-family: inherit; }
 
-    footer { text-align: center; padding: 40px; color: #777; font-weight: 700; }
+    /* Admin Panel - Accordion Style */
+    #adminPanel { display: none; margin-top: 40px; padding: 30px; background: #1a1a1a; border-radius: 24px; color: #fff; }
+    .accordion-item { 
+      background: #2a2a2a; 
+      border-radius: 12px; 
+      margin-bottom: 10px; 
+      overflow: hidden; 
+      border: 1px solid #333;
+    }
+    .accordion-header { 
+      padding: 15px 20px; 
+      cursor: pointer; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      font-weight: 700;
+    }
+    .accordion-header:hover { background: #333; }
+    .accordion-content { 
+      padding: 0 20px; 
+      max-height: 0; 
+      overflow: hidden; 
+      transition: 0.3s ease-out; 
+      color: #bbb;
+      font-size: 14px;
+    }
+    .accordion-item.active .accordion-content { padding: 20px; max-height: 500px; border-top: 1px solid #333; }
+    .status-badge { font-size: 10px; background: var(--yellow); color: #000; padding: 2px 8px; border-radius: 10px; }
+
+    footer { text-align: center; padding: 60px; color: #aaa; font-weight: 600; font-size: 13px; }
   </style>
 </head>
 <body>
 
-  <header class="header-wrap">
-    <div class="nav-bar">
+  <header>
+    <div class="nav-container">
       <div class="logo">
-        <img src="https://cdn.discordapp.com/attachments/1322634269486612502/1492893276699889674/d5ee61e1-fd1c-492e-a9af-e263dd4e3724.png" alt="Logo">
+        <img src="https://cdn.discordapp.com/attachments/1322634269486612502/1492893276699889674/d5ee61e1-fd1c-492e-a9af-e263dd4e3724.png" alt="Moon">
       </div>
       <nav class="nav-links">
-        <a href="#home" class="active" data-tr="Ana Sayfa" data-en="Home">Ana Sayfa</a>
-        <a href="#trade" data-tr="Takas" data-en="Trade">Takas</a>
-        <a href="#staff" data-tr="Başvuru" data-en="Staff">Başvuru</a>
-        <a href="#admin" onclick="unlockAdmin()" data-tr="Panel" data-en="Admin">Panel</a>
+        <a href="#home" class="active" data-en="Home" data-tr="Ana Sayfa">Home</a>
+        <a href="#trading" data-en="Trading" data-tr="Takas">Trading</a>
+        <a href="#staff" data-en="Staff App" data-tr="Başvuru">Staff App</a>
+        <a href="#admin" onclick="authAdmin()" data-en="Admin" data-tr="Yönetici">Admin</a>
       </nav>
-      <select onchange="setLanguage(this.value)" style="padding:5px; border-radius:10px; cursor:pointer;">
-        <option value="tr">TR</option>
+      <select onchange="updateLang(this.value)" style="border:none; background:none; font-weight:800; cursor:pointer;">
         <option value="en">EN</option>
-        <option value="fr">FR</option>
+        <option value="tr">TR</option>
       </select>
     </div>
   </header>
 
   <section class="hero" id="home">
-    <h1 data-tr="Moon Games Dünyasına Katıl" data-en="Join Moon Games World">Moon Games Dünyasına Katıl</h1>
-    <div class="hero-btns">
-      <a href="https://www.roblox.com/tr/games/112991977606907/Tap-Horizons" target="_blank" class="btn btn-main" data-tr="Oyuna Git" data-en="Play Game">Oyuna Git</a>
-      <a href="https://www.roblox.com/tr/communities/865404797/MoonStudioReal#!/about" target="_blank" class="btn btn-sub" data-tr="Grubumuz" data-en="Our Group">Grubumuz</a>
+    <h1 data-en="Experience the Future of Roblox" data-tr="Roblox'un Geleceğini Deneyimleyin">Experience the Future of Roblox</h1>
+    <p style="color:#777; font-weight:600;" data-en="Creative games, active community, and fair trading." data-tr="Yaratıcı oyunlar, aktif topluluk ve adil takas.">Creative games, active community, and fair trading.</p>
+    <div class="btn-group">
+      <a href="https://www.roblox.com/tr/games/112991977606907/Tap-Horizons" target="_blank" class="btn btn-primary" data-en="Play Now" data-tr="Hemen Oyna">Play Now</a>
+      <a href="https://discord.gg/yourlink" class="btn btn-secondary">Discord Server</a>
     </div>
   </section>
 
-  <section class="section" id="trade">
-    <h2 style="text-align:center" data-tr="Trading Sohbeti" data-en="Trading Chat">Trading Sohbeti</h2>
-    <div class="chat-box">
-      <div class="chat-msgs" id="chatWindow">
-        <div class="msg msg-in"><b>Sistem:</b> Hoş geldin! Takas tekliflerini buraya yazabilirsin.</div>
+  <section class="section" id="trading">
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <span data-en="Global Trading Chat" data-tr="Küresel Takas Sohbeti">Global Trading Chat</span>
+        <span style="color: green; font-size: 12px;">● Online</span>
+      </div>
+      <div class="chat-messages" id="chatFlow">
+        <div class="message msg-other"><span class="msg-info">System</span>Welcome to Moon Games Hub! Start trading now.</div>
       </div>
       <div class="chat-input">
-        <input type="text" id="userName" placeholder="Nick" style="width:80px;">
-        <input type="text" id="userMsg" placeholder="Mesajın...">
-        <button class="btn btn-main" onclick="sendMsg()" data-tr="Gönder" data-en="Send">Gönder</button>
+        <input type="text" id="chatName" placeholder="Name" style="width: 100px;">
+        <input type="text" id="chatText" placeholder="Write a message...">
+        <button class="btn btn-primary" onclick="broadcastMsg()" style="padding: 10px 20px;" data-en="Send" data-tr="Gönder">Send</button>
       </div>
     </div>
   </section>
 
   <section class="section" id="staff">
-    <h2 style="text-align:center" data-tr="Yetkili Başvurusu" data-en="Staff Application">Yetkili Başvurusu</h2>
-    <div class="form-card">
-      <form id="applyForm">
+    <div class="app-form">
+      <h2 style="margin-top:0" data-en="Join the Staff Team" data-tr="Yetkili Ekibine Katıl">Join the Staff Team</h2>
+      <form id="staffForm">
         <div class="field">
-          <label data-tr="Roblox Adın" data-en="Roblox Name">Roblox Adın</label>
-          <input type="text" id="fName" required>
+          <label data-en="Roblox Username" data-tr="Roblox Kullanıcı Adı">Roblox Username</label>
+          <input type="text" id="rName" placeholder="e.g. Builderman" required>
         </div>
         <div class="field">
-          <label data-tr="Yaşın" data-en="Age">Yaşın</label>
-          <input type="number" id="fAge" required>
+          <label data-en="Your Age" data-tr="Yaşınız">Your Age</label>
+          <input type="number" id="rAge" required>
         </div>
         <div class="field">
-          <label data-tr="Neden sen?" data-en="Why you?">Neden sen?</label>
-          <textarea id="fWhy" rows="4" required></textarea>
+          <label data-en="Why should we hire you?" data-tr="Neden seni işe almalıyız?">Why should we hire you?</label>
+          <textarea id="rWhy" rows="4" placeholder="..." required></textarea>
         </div>
-        <button type="submit" class="btn btn-main" style="width:100%" data-tr="Başvuruyu Yap" data-en="Apply Now">Başvuruyu Yap</button>
+        <button type="submit" class="btn btn-primary" style="width:100%" data-en="Submit Application" data-tr="Başvuruyu Gönder">Submit Application</button>
       </form>
     </div>
-  </section>
 
-  <section class="section" id="admin">
     <div id="adminPanel">
-      <h2 data-tr="Gelen Başvurular" data-en="Applications">Gelen Başvurular</h2>
-      <div id="appContainer"></div>
-      <button onclick="clearData()" style="background:red; color:white; border:none; padding:10px; border-radius:10px; cursor:pointer; margin-top:10px;">Verileri Sıfırla</button>
+      <h2 data-en="Dashboard: Applications" data-tr="Panel: Başvurular">Dashboard: Applications</h2>
+      <div id="adminContent"></div>
+      <button onclick="localStorage.removeItem('globalApps'); location.reload();" style="background:none; color:red; border:none; cursor:pointer; font-size:12px; margin-top:20px;">Clear All Data</button>
     </div>
   </section>
 
-  <footer>&copy; 2026 Moon Games - Built for the community.</footer>
+  <footer>&copy; 2026 MOON GAMES. ALL RIGHTS RESERVED.</footer>
 
   <script>
-    // Dil Değiştirme
-    function setLanguage(l) {
-      document.querySelectorAll('[data-'+l+']').forEach(e => {
-        e.textContent = e.getAttribute('data-'+l);
+    // 1. DİL AYARI (Varsayılan İngilizce)
+    function updateLang(lang) {
+      document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
       });
+      document.getElementById('chatName').placeholder = lang === 'en' ? 'Name' : 'İsim';
+      document.getElementById('chatText').placeholder = lang === 'en' ? 'Write a message...' : 'Mesaj yaz...';
     }
+    updateLang('en'); // Başlangıçta İngilizce
 
-    // Chat
-    function sendMsg() {
-      const name = document.getElementById('userName').value || 'User';
-      const txt = document.getElementById('userMsg').value;
-      if(!txt) return;
+    // 2. CHAT SİSTEMİ (Gerçek zamanlı görünmesi için veritabanı gerekir, burada simüle ediyoruz)
+    function broadcastMsg() {
+      const name = document.getElementById('chatName').value || 'Guest';
+      const text = document.getElementById('chatText').value;
+      if(!text) return;
 
-      const win = document.getElementById('chatWindow');
+      const chat = document.getElementById('chatFlow');
       const div = document.createElement('div');
-      div.className = 'msg msg-out';
-      div.innerHTML = `<b>${name}:</b> ${txt}`;
-      win.appendChild(div);
-      document.getElementById('userMsg').value = '';
-      win.scrollTop = win.scrollHeight;
+      div.className = 'message msg-me';
+      div.innerHTML = `<span class="msg-info">${name}</span>${text}`;
+      chat.appendChild(div);
+      
+      document.getElementById('chatText').value = '';
+      chat.scrollTop = chat.scrollHeight;
+
+      // KANKA: Başka bilgisayarda görünmesi için Firebase 'database.push()' buraya gelir.
     }
 
-    // Başvuru Kaydetme (Local Storage)
-    document.getElementById('applyForm').onsubmit = function(e) {
+    // 3. BAŞVURU SİSTEMİ
+    document.getElementById('staffForm').onsubmit = function(e) {
       e.preventDefault();
-      const obj = {
-        name: document.getElementById('fName').value,
-        age: document.getElementById('fAge').value,
-        why: document.getElementById('fWhy').value,
-        date: new Date().toLocaleString()
+      const appData = {
+        user: document.getElementById('rName').value,
+        age: document.getElementById('rAge').value,
+        text: document.getElementById('rWhy').value,
+        date: new Date().toLocaleTimeString(),
+        id: Date.now()
       };
-      const list = JSON.parse(localStorage.getItem('moonApps') || '[]');
-      list.push(obj);
-      localStorage.setItem('moonApps', JSON.stringify(list));
-      alert("Başvuru alındı!");
+
+      // Veriyi kaydet (Şu anlık Local, Global için Backend şart)
+      let apps = JSON.parse(localStorage.getItem('globalApps') || '[]');
+      apps.push(appData);
+      localStorage.setItem('globalApps', JSON.stringify(apps));
+
+      alert("Application sent successfully!");
       this.reset();
     };
 
-    // Admin Paneli Açılış
-    function unlockAdmin() {
-      const p = prompt("Şifre:");
-      if(p === "moon123") {
+    // 4. ADMIN PANELİ & ACCORDION (Tıklayınca Açılan)
+    function authAdmin() {
+      const pw = prompt("Admin Password:");
+      if(pw === "moon123") {
         document.getElementById('adminPanel').style.display = 'block';
-        loadApps();
+        renderApps();
+        window.location.href = "#admin";
       } else {
-        alert("Hatalı!");
+        alert("Access Denied.");
       }
     }
 
-    function loadApps() {
-      const cont = document.getElementById('appContainer');
-      const data = JSON.parse(localStorage.getItem('moonApps') || '[]');
-      cont.innerHTML = data.length ? '' : 'Henüz başvuru yok.';
-      data.forEach(a => {
-        cont.innerHTML += `<div class="app-item"><b>${a.name} (${a.age})</b><br>${a.date}<br><i>${a.why}</i></div>`;
+    function renderApps() {
+      const container = document.getElementById('adminContent');
+      const data = JSON.parse(localStorage.getItem('globalApps') || '[]');
+      
+      container.innerHTML = data.length ? '' : '<p>No applications yet.</p>';
+
+      data.forEach(item => {
+        const acc = document.createElement('div');
+        acc.className = 'accordion-item';
+        acc.innerHTML = `
+          <div class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+            <span>👤 ${item.user} <small style="opacity:0.5; font-weight:400;">(${item.date})</small></span>
+            <span class="status-badge">New</span>
+          </div>
+          <div class="accordion-content">
+            <strong>Age:</strong> ${item.age} <br><br>
+            <strong>Reason:</strong><br> ${item.text}
+          </div>
+        `;
+        container.appendChild(acc);
       });
-    }
-
-    function clearData() {
-      if(confirm("Silinsin mi?")) {
-        localStorage.removeItem('moonApps');
-        loadApps();
-      }
     }
   </script>
 </body>
