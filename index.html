@@ -3,74 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moon Games | Global Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <title>Moon Games | Premium Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root { --yellow: #f4bf08; --dark: #121212; --border: #e2e2e2; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #f8f9fa; }
+    :root {
+      --primary: #f4bf08;
+      --primary-glow: rgba(244, 191, 8, 0.4);
+      --bg: #0a0a0c;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+    }
+
+    * { box-sizing: border-box; outline: none; transition: all 0.3s ease; }
+    html { scroll-behavior: smooth; }
+    body { 
+      margin: 0; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: var(--bg); 
+      color: var(--text);
+      background-image: radial-gradient(circle at 50% -20%, #1e1e24 0%, #0a0a0c 100%);
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .nav {
+      position: sticky; top: 20px; z-index: 100;
+      max-width: 1100px; margin: 0 auto;
+      background: rgba(10, 10, 12, 0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 24px;
+    }
+    .nav-brand { font-weight: 800; font-size: 20px; color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+    .nav-links a { 
+      text-decoration: none; color: rgba(255,255,255,0.6); 
+      font-weight: 600; font-size: 14px; margin-left: 20px;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    /* Container & Layout */
+    .container { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
+    .hero { text-align: center; margin-bottom: 80px; }
+    .hero h1 { font-size: 64px; font-weight: 800; margin: 0; letter-spacing: -2px; }
+    .hero span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
+
+    .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+
+    /* Card & Components */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Chat Section */
+    #chatFlow {
+      height: 400px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 12px;
+      padding-right: 10px; margin-bottom: 20px;
+      scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+    }
+    .msg { 
+      padding: 12px 18px; border-radius: 20px; font-size: 14px; max-width: 85%;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .msg-other { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg-me { background: var(--primary); color: #000; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 600; }
+    .msg b { display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; opacity: 0.7; }
+
+    /* Inputs & Buttons */
+    .input-group { display: flex; gap: 10px; }
+    input, textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px; color: white;
+      font-family: inherit;
+    }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
     
-    /* Navigasyon */
-    .nav { max-width: 1000px; margin: 15px auto; background: white; border-radius: 50px; display: flex; justify-content: space-between; padding: 10px 25px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .nav a { text-decoration: none; color: #555; font-weight: 700; padding: 8px 15px; border-radius: 50px; }
-    .nav a:hover { background: var(--yellow); color: #000; }
+    .btn {
+      background: var(--primary); color: #000;
+      border: none; border-radius: 16px;
+      padding: 14px 28px; font-weight: 800;
+      cursor: pointer; box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .btn:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-    /* Ana Bölümler */
-    .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-    .card { background: white; padding: 30px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    /* Admin Accordion */
+    #adminPanel { display: none; margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
+    .acc-item { 
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 16px; margin-bottom: 10px; overflow: hidden;
+    }
+    .acc-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; }
+    .acc-header:hover { background: rgba(255,255,255,0.08); }
+    .acc-content { padding: 0 16px; max-height: 0; overflow: hidden; color: #aaa; font-size: 14px; }
+    .acc-item.active .acc-content { padding: 16px; max-height: 300px; border-top: 1px solid var(--border); }
 
-    /* Chat Stili */
-    #chatFlow { height: 300px; overflow-y: auto; border-bottom: 1px solid #eee; margin-bottom: 15px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
-    .msg { padding: 10px 15px; border-radius: 15px; font-size: 14px; max-width: 80%; }
-    .msg-other { background: #eee; align-self: flex-start; }
-    .msg-me { background: var(--yellow); align-self: flex-end; }
-    .msg b { font-size: 10px; display: block; opacity: 0.6; }
-
-    /* Admin Accordion Stili */
-    #adminPanel { display: none; background: #1a1a1a; color: white; padding: 20px; border-radius: 15px; margin-top: 20px; }
-    .acc-item { background: #2a2a2a; border-radius: 8px; margin-bottom: 5px; border: 1px solid #333; }
-    .acc-header { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; }
-    .acc-content { padding: 0 12px; max-height: 0; overflow: hidden; transition: 0.3s; color: #ccc; }
-    .acc-item.active .acc-content { padding: 12px; max-height: 200px; border-top: 1px solid #333; }
-
-    input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
-    .btn { background: var(--yellow); border: none; padding: 12px 25px; border-radius: 10px; font-weight: 800; cursor: pointer; width: 100%; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
   <div class="nav">
-    <b>Moon Games</b>
-    <div class="links">
-      <a href="#trading">Chat</a>
+    <div class="nav-brand">MOON GAMES</div>
+    <div class="nav-links">
+      <a href="#trading">Trading</a>
       <a href="#staff">Apply</a>
-      <a href="#admin" onclick="authAdmin()">Admin</a>
+      <a href="javascript:void(0)" onclick="authAdmin()">Panel</a>
     </div>
   </div>
 
   <div class="container">
-    <div class="card" id="trading">
-      <h2 data-en="Global Chat" data-tr="Küresel Sohbet">Global Chat</h2>
-      <div id="chatFlow"></div>
-      <div style="display: flex; gap: 10px;">
-        <input type="text" id="chatName" placeholder="Name" style="width: 100px;">
-        <input type="text" id="chatText" placeholder="Your message...">
-        <button class="btn" onclick="sendMsg()" style="width: auto;">Send</button>
+    <div class="hero">
+      <h1>THE <span>UNIVERSE</span> IS YOURS</h1>
+      <p style="opacity: 0.5;">Trade items, join the staff, and rule the moon.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card" id="trading">
+        <h2 style="margin-top:0">Global Trade Chat</h2>
+        <div id="chatFlow"></div>
+        <div class="input-group">
+          <input type="text" id="chatName" placeholder="Nick" style="width: 100px;">
+          <input type="text" id="chatText" placeholder="Drop a trade offer...">
+          <button class="btn" onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+
+      <div class="card" id="staff">
+        <h2 style="margin-top:0">Join the Team</h2>
+        <form id="staffForm">
+          <input type="text" id="rName" placeholder="Roblox Username" style="width:100%; margin-bottom:12px;" required>
+          <input type="number" id="rAge" placeholder="Age" style="width:100%; margin-bottom:12px;" required>
+          <textarea id="rWhy" placeholder="Why should we hire you?" rows="4" style="width:100%; margin-bottom:12px;" required></textarea>
+          <button type="submit" class="btn" style="width:100%">Submit App</button>
+        </form>
       </div>
     </div>
 
-    <div class="card" id="staff" style="margin-top: 20px;">
-      <h2 data-en="Staff Application" data-tr="Başvuru">Staff Application</h2>
-      <form id="staffForm">
-        <input type="text" id="rName" placeholder="Roblox User" required>
-        <input type="number" id="rAge" placeholder="Age" required>
-        <textarea id="rWhy" placeholder="Why you?" rows="3" required></textarea>
-        <button type="submit" class="btn">Submit Application</button>
-      </form>
-
-      <div id="adminPanel">
-        <h3>Applications Received</h3>
-        <div id="adminContent"></div>
-      </div>
+    <div id="adminPanel" class="card">
+      <h2 style="color: var(--primary)">Admin Dashboard</h2>
+      <div id="adminContent"></div>
     </div>
   </div>
 
@@ -78,7 +158,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Firebase Bilgilerin (Görüntüdeki Bilgilerle Eşleştirildi)
     const firebaseConfig = {
       apiKey: "AIzaSyDkLKenWijQCm00UwdNmrZtRzJWA0nw8yo",
       authDomain: "moongameshub-23c01.firebaseapp.com",
@@ -92,28 +171,28 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // CHAT GÖNDER
+    // Chat Functions
     window.sendMsg = function() {
       const name = document.getElementById('chatName').value || 'Guest';
       const text = document.getElementById('chatText').value;
-      if(text) {
-        push(ref(db, 'messages'), { user: name, msg: text });
+      if(text.trim() !== "") {
+        push(ref(db, 'messages'), { user: name, msg: text, ts: Date.now() });
         document.getElementById('chatText').value = '';
       }
     };
 
-    // CHAT CANLI DİNLE
     onChildAdded(ref(db, 'messages'), (snap) => {
       const data = snap.val();
       const chat = document.getElementById('chatFlow');
       const div = document.createElement('div');
-      div.className = `msg ${data.user === document.getElementById('chatName').value ? 'msg-me' : 'msg-other'}`;
+      const isMe = data.user === document.getElementById('chatName').value;
+      div.className = `msg ${isMe ? 'msg-me' : 'msg-other'}`;
       div.innerHTML = `<b>${data.user}</b>${data.msg}`;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
     });
 
-    // BAŞVURU GÖNDER
+    // Staff Application
     document.getElementById('staffForm').onsubmit = function(e) {
       e.preventDefault();
       push(ref(db, 'apps'), {
@@ -121,16 +200,18 @@
         age: document.getElementById('rAge').value,
         why: document.getElementById('rWhy').value,
         time: new Date().toLocaleString()
+      }).then(() => {
+        alert("Application sent to the Moon!");
+        this.reset();
       });
-      alert("Application sent!");
-      this.reset();
     };
 
-    // ADMIN GİRİŞİ
+    // Admin Access
     window.authAdmin = function() {
-      if(prompt("Password:") === "moon123") {
+      if(prompt("Admin Key:") === "moon123") {
         document.getElementById('adminPanel').style.display = 'block';
         loadApps();
+        window.scrollTo(0, document.body.scrollHeight);
       }
     };
 
@@ -143,12 +224,12 @@
         item.className = 'acc-item';
         item.innerHTML = `
           <div class="acc-header" onclick="this.parentElement.classList.toggle('active')">
-            <span>👤 ${val.user}</span> <span>▼</span>
+            <span>👤 ${val.user}</span> <span>Explore ⚡</span>
           </div>
           <div class="acc-content">
-            <b>Age:</b> ${val.age}<br>
-            <b>Reason:</b> ${val.why}<br>
-            <small>${val.time}</small>
+            <p><strong>Age:</strong> ${val.age}</p>
+            <p><strong>Motivation:</strong> ${val.why}</p>
+            <p style="font-size:10px; opacity:0.5">${val.time}</p>
           </div>
         `;
         cont.prepend(item);
