@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moon Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --card: #f7f2e7;
+      --text: #111111;
+      --muted: #666666;
+      --yellow: #f4bf08;
+      --yellow-dark: #d9a700;
+      --border: #f0c84a;
+      --shadow: 0 10px 25px rgba(244, 191, 8, 0.18);
+      --radius: 24px;
+      --container: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: 10px 12px 0;
+      background: linear-gradient(to bottom, rgba(244,244,244,0.92), rgba(244,244,244,0.72), transparent);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar {
+      border: 2px solid rgba(240, 200, 74, 0.6);
+      background: rgba(255,255,255,0.88);
+      border-radius: 28px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 88px;
+      padding: 12px 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 170px;
+    }
+
+    .brand img {
+      width: 112px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .nav-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px;
+      background: #f8f5ee;
+      border: 1.5px solid rgba(240, 200, 74, 0.45);
+      border-radius: 22px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill a {
+      padding: 11px 18px;
+      border-radius: 14px;
+      color: #555;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-pill a:hover {
+      background: #fff;
+      color: #111;
+    }
+
+    .theme-btn {
+      width: 52px;
+      height: 52px;
+      border: 1.5px solid rgba(240, 200, 74, 0.7);
+      border-radius: 50%;
+      background: #f8f5ee;
+      cursor: pointer;
+      font-size: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-1px);
+      background: #fff6d7;
+    }
+
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 110px);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 56px 0 40px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 248, 227, 0.84), rgba(255, 248, 227, 0.84)),
+        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80');
+      background-position: center;
+      background-size: cover;
+      filter: saturate(0.9) blur(0px);
+      transform: scale(1.02);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(255,255,255,0.22));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      width: min(1150px, calc(100% - 32px));
+    }
+
+    .hero-logo {
+      width: min(420px, 72vw);
+      margin: 8px auto 28px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
+    }
+
+    .hero h1 {
+      margin: 0 auto;
+      max-width: 1100px;
+      font-size: clamp(46px, 7vw, 90px);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 24px auto 0;
+      font-size: clamp(18px, 2vw, 28px);
+      line-height: 1.45;
+      color: #2e2e2e;
+    }
+
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-width: 250px;
+      height: 66px;
+      border: none;
+      border-radius: 16px;
+      padding: 0 24px;
+      font-size: 24px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: #181818;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: #ffcb17;
+    }
+
+    .btn-secondary {
+      background: #f0eee8;
+      border: 2px solid rgba(0,0,0,0.12);
+      color: #222;
+    }
+
+    section {
+      padding: 86px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .section-head p {
+      margin: 18px auto 0;
+      max-width: 860px;
+      color: #6b6b6b;
+      font-size: clamp(17px, 2vw, 24px);
+      line-height: 1.5;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      grid-column: span 4;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 30px 26px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .stat-card.wide {
+      grid-column: span 8;
+    }
+
+    .stat-icon {
+      font-size: 48px;
+      line-height: 1;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 6px 12px rgba(244, 191, 8, 0.22));
+    }
+
+    .stat-number {
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: clamp(15px, 1.6vw, 24px);
+      color: #2e2e2e;
+      font-weight: 500;
+    }
+
+    .games-title {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .games-title h2 {
+      margin: 0;
+      font-size: clamp(36px, 5vw, 66px);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .games-title .accent {
+      color: var(--yellow);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .game-card {
+      background: #fff;
+      border: 2px solid var(--yellow);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.03);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 24px rgba(0,0,0,0.08);
+    }
+
+    .game-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .game-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-stack {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-badge {
+      min-width: 90px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(13, 13, 13, 0.92);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 0 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .game-body {
+      padding: 20px 18px 22px;
+    }
+
+    .game-name {
+      margin: 0 0 10px;
+      font-size: 19px;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .game-author {
+      color: #7c7c7c;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .contact-box {
+      max-width: 860px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #fff7dc, #f8f3e7);
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      padding: 34px 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .contact-box h3 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 3vw, 42px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .contact-box p {
+      margin: 0 auto 24px;
+      max-width: 620px;
+      color: #5e5e5e;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer {
+      padding: 24px 0 48px;
+      text-align: center;
+      color: #777;
+      font-weight: 600;
+    }
+
+    .dark {
+      --bg: #0f1012;
+      --card: #181a1f;
+      --text: #f7f7f7;
+      --muted: #c7c7c7;
+      --border: rgba(240, 200, 74, 0.85);
+      --shadow: 0 10px 25px rgba(244, 191, 8, 0.12);
+    }
+
+    .dark body {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .dark .topbar-wrap {
+      background: linear-gradient(to bottom, rgba(15,16,18,0.92), rgba(15,16,18,0.72), transparent);
+    }
+
+    .dark .topbar {
+      background: rgba(23,25,29,0.88);
+      border-color: rgba(240, 200, 74, 0.35);
+    }
+
+    .dark .nav-pill,
+    .dark .theme-btn,
+    .dark .btn-secondary {
+      background: #1f2228;
+      color: #f1f1f1;
+      border-color: rgba(240, 200, 74, 0.25);
+    }
+
+    .dark .nav-pill a {
+      color: #dddddd;
+    }
+
+    .dark .nav-pill a:hover {
+      background: #2b2f36;
+      color: #fff;
+    }
+
+    .dark .hero::before {
+      background-image:
+        linear-gradient(rgba(20, 17, 5, 0.78), rgba(20, 17, 5, 0.78)),
+        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80');
+    }
+
+    .dark .hero p,
+    .dark .section-head p,
+    .dark .contact-box p,
+    .dark .game-author,
+    .dark .stat-label,
+    .dark .footer {
+      color: #d3d3d3;
+    }
+
+    .dark .game-card,
+    .dark .contact-box {
+      background: #16181d;
+    }
+
+    @media (max-width: 1200px) {
+      .games-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 16px;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat-card,
+      .stat-card.wide {
+        grid-column: auto;
+      }
+
+      .games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        min-height: auto;
+        padding: 34px 0 28px;
+      }
+
+      .hero-actions {
+        gap: 12px;
+      }
+
+      .btn {
+        min-width: 100%;
+        width: 100%;
+        font-size: 20px;
+      }
+
+      .stats-grid,
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card {
+        min-height: 180px;
+      }
+
+      section {
+        padding: 66px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar-wrap">
+    <div class="topbar container">
+      <a class="brand" href="#home" aria-label="Moon Games Ana Sayfa">
+        <img src="logo.png" alt="Moon Games Logo" />
+      </a>
+
+      <nav class="nav-pill">
+        <a href="#about">About Us</a>
+        <a href="#stats">Statistics</a>
+        <a href="#games">Experiences</a>
+        <a href="#contact">Contact Us</a>
+      </nav>
+
+      <button class="theme-btn" id="themeBtn" aria-label="Tema değiştir">🌙</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <img class="hero-logo" src="logo.png" alt="Moon Games Logo Büyük" />
+        <h1>Turning Ideas into Unforgettable Experiences.</h1>
+        <p>
+          We build exciting Roblox experiences, create memorable worlds, and bring players together with fun, polished gameplay.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="openMainGame()">Play Now</button>
+          <a class="btn btn-secondary" href="#games">See Experiences</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2>About Moon Games</h2>
+          <p>
+            Moon Games is focused on building stylish, fun, and replayable Roblox experiences. Fast updates, clean visuals, and strong community energy are at the center of everything we make.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="stats">
+      <div class="container">
+        <div class="section-head">
+          <h2>By the Numbers</h2>
+          <p>We’ve transformed ideas into performance. The results speak for themselves.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card wide">
+            <div class="stat-icon">🟡</div>
+            <div class="stat-number" id="activePlayers">6.0K</div>
+            <div class="stat-label">Currently Active</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎮</div>
+            <div class="stat-number" id="totalGames">1</div>
+            <div class="stat-label">Total Games</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👑</div>
+            <div class="stat-number" id="totalVisits">0</div>
+            <div class="stat-label">Total Lifetime Visits</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💛</div>
+            <div class="stat-number" id="totalFavorites">0</div>
+            <div class="stat-label">Total Favorites</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number" id="groupMembers">0</div>
+            <div class="stat-label">Group Members</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="games">
+      <div class="container">
+        <div class="games-title">
+          <h2>Every Adventure Begins<br />With an <span class="accent">Incredible Experience.</span></h2>
+        </div>
+
+        <div class="games-grid" id="gamesGrid"></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <h3>Ready to play? 🌙</h3>
+          <p>
+            Jump into our main experience, explore our latest updates, and follow Moon Games as we keep building bigger worlds.
+          </p>
+          <div class="contact-actions">
+            <button class="btn btn-primary" onclick="openMainGame()">Open Main Game</button>
+            <a class="btn btn-secondary" id="groupLink" href="#" target="_blank" rel="noopener noreferrer">Open Roblox Group</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2026 Moon Games. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      mainGameUrl: 'https://www.roblox.com/tr/games/112991977606907/Tap-Horizons',
+      robloxGroupUrl: 'https://www.roblox.com/tr/games/112991977606907/Tap-Horizons',
+      groupMembers: 0,
+      refreshIntervalMs: 60000,
+      games: [
+        {
+          title: 'Tap Horizons',
+          creator: 'By Moon Games',
+          gameUrl: 'https://www.roblox.com/games/0000000000/your-game',
+          image: 'https://cdn.discordapp.com/attachments/1492648692019236977/1492648754896044042/image.png?ex=69dcc1bb&is=69db703b&hm=91000f42fc7ceec924791917041fbc59164c9647a17f505b5975637ce96fd140&',
+          active: '0',
+          visits: '0'
+        }
+      ],
+
+      /*
+        GitHub Pages üzerinde gerçek Roblox canlı veri almak için doğrudan resmi API kullanımı genelde CORS yüzünden çalışmaz.
+        Bu yüzden en temiz yöntem küçük bir proxy/backend kullanmaktır.
+        Eğer sonra istersen sana Cloudflare Worker veya Vercel API ile gerçek canlı sistem de kurarım.
+        Aşağıdaki alanı şimdilik elle doldurabiliriz.
+      */
+      liveStats: {
+        activePlayers: '6.0K',
+        totalGames: 1,
+        totalVisits: '118.8M',
+        totalFavorites: '3.4M',
+        groupMembers: '911.3K'
+      }
+    };
+
+    const themeBtn = document.getElementById('themeBtn');
+    const root = document.documentElement;
+    const gamesGrid = document.getElementById('gamesGrid');
+    const groupLink = document.getElementById('groupLink');
+
+    groupLink.href = CONFIG.robloxGroupUrl;
+
+    function openMainGame() {
+      window.open(CONFIG.mainGameUrl, '_blank');
+    }
+
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        root.classList.add('dark');
+        themeBtn.textContent = '☀️';
+      } else {
+        root.classList.remove('dark');
+        themeBtn.textContent = '🌙';
+      }
+      localStorage.setItem('moon-theme', mode);
+    }
+
+    themeBtn.addEventListener('click', () => {
+      const current = root.classList.contains('dark') ? 'dark' : 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    (function initTheme() {
+      const saved = localStorage.getItem('moon-theme');
+      setTheme(saved || 'light');
+    })();
+
+    function renderStats() {
+      document.getElementById('activePlayers').textContent = CONFIG.liveStats.activePlayers;
+      document.getElementById('totalGames').textContent = CONFIG.liveStats.totalGames;
+      document.getElementById('totalVisits').textContent = CONFIG.liveStats.totalVisits;
+      document.getElementById('totalFavorites').textContent = CONFIG.liveStats.totalFavorites;
+      document.getElementById('groupMembers').textContent = CONFIG.liveStats.groupMembers;
+    }
+
+    function createGameCard(game) {
+      const card = document.createElement('a');
+      card.className = 'game-card';
+      card.href = game.gameUrl;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+
+      card.innerHTML = `
+        <div class="game-thumb">
+          <img src="${game.image}" alt="${game.title}">
+          <div class="badge-stack">
+            <div class="mini-badge">🟡 ${game.active}</div>
+            <div class="mini-badge">▶ ${game.visits}</div>
+          </div>
+        </div>
+        <div class="game-body">
+          <h3 class="game-name">${game.title}</h3>
+          <div class="game-author">${game.creator}</div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function renderGames() {
+      gamesGrid.innerHTML = '';
+      CONFIG.games.forEach((game) => {
+        gamesGrid.appendChild(createGameCard(game));
+      });
+    }
+
+    renderStats();
+    renderGames();
+  </script>
+</body>
+</html>
