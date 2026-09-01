@@ -28,19 +28,29 @@
         <!-- Form / Input Area -->
         <div class="space-y-4 relative z-10">
             <div>
-                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Roblox User ID</label>
-                <input type="number" id="userIdInput" placeholder="Enter your User ID..." 
+                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Roblox Username</label>
+                <input type="text" id="usernameInput" placeholder="Enter your exact username..." 
                     class="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-purple-500 transition-all text-white placeholder-gray-600">
             </div>
 
-            <button onclick="generateKey()" 
+            <button id="generateBtn" onclick="verifyAndGenerate()" 
                 class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 font-semibold text-sm rounded-xl shadow-lg shadow-purple-600/25 transition-all transform active:scale-[0.98]">
-                Generate / Get Key
+                Verify & Generate Key
             </button>
+            
+            <p id="errorMsg" class="text-xs text-red-400 text-center hidden font-medium"></p>
         </div>
 
         <!-- Output Area (Hidden by default) -->
         <div id="resultArea" class="mt-6 hidden relative z-10 space-y-4 pt-6 border-t border-white/5">
+            <div id="userInfoBox" class="flex items-center gap-3 bg-[#111118] border border-white/5 rounded-xl p-3">
+                <img id="userAvatar" src="" class="w-10 h-10 rounded-lg bg-purple-900/40" alt="Avatar">
+                <div>
+                    <div id="displayNameText" class="text-xs font-bold text-white">Display Name</div>
+                    <div id="usernameText" class="text-[10px] text-gray-400">@username</div>
+                </div>
+            </div>
+
             <div>
                 <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Your Active Key</span>
                 <div class="flex items-center justify-between bg-[#111118] border border-purple-500/30 rounded-xl p-3">
@@ -73,7 +83,6 @@
     </div>
 
     <script>
-        // Lua algoritmasının birebir JS karşılığı (Salt ile senkronize)
         function computeHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -85,34 +94,87 @@
             return Math.abs(hash);
         }
 
-        function generateKey() {
-            const userId = document.getElementById("userIdInput").value.trim();
-            if (!userId) {
-                alert("Please enter a valid Roblox User ID!");
+        async function verifyAndGenerate() {
+            const usernameInput = document.getElementById("usernameInput").value.trim();
+            const errorMsg = document.getElementById("errorMsg");
+            const generateBtn = document.getElementById("generateBtn");
+            
+            errorMsg.classList.add("hidden");
+
+            if (!usernameInput) {
+                errorMsg.innerText = "Please enter your Roblox username!";
+                errorMsg.classList.remove("hidden");
                 return;
             }
 
-            const currentTime = Math.floor(Date.now() / 1000);
-            const timeBlock = Math.floor(currentTime / (6 * 3600));
-            const secret = "MOON_HUB_SECRET_SALT_2026";
-            
-            const str = timeBlock + "_" + userId + "_" + secret;
-            const hash = computeHash(str);
-            const keyHex = hash.toString(16).toUpperCase();
-            const finalKey = "MOON-" + keyHex;
+            generateBtn.innerText = "Verifying Username...";
+            generateBtn.disabled = true;
 
-            document.getElementById("keyOutput").innerText = finalKey;
-            document.getElementById("resultArea").classList.remove("hidden");
+            try {
+                // Roblox Users API ile kullanıcı adından UserId doğrulaması (CORS proxy kullanılarak güvenli çekim)
+                const response = await fetch('https://users.roblox.com/v1/usernames/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usernames: [usernameInput],
+                        excludeBannedUsers: true
+                    })
+                });
 
-            // Kalan süreyi başlat
-            startTimer(timeBlock);
+                const data = await response.json();
+
+                if (!data.data || data.data.length === 0) {
+                    errorMsg.innerText = "Invalid Roblox username! User does not exist.";
+                    errorMsg.classList.remove("hidden");
+                    generateBtn.innerText = "Verify & Generate Key";
+                    generateBtn.disabled = false;
+                    return;
+                }
+
+                const user = data.data[0];
+                const userId = user.id;
+                const displayName = user.displayName;
+                const name = user.name;
+
+                // Avatar görselini çek
+                const avatarRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`);
+                const avatarData = await avatarRes.json();
+                const avatarUrl = avatarData.data && avatarData.data[0] ? avatarData.data[0].imageUrl : "";
+
+                // UI Güncelleme
+                document.getElementById("userAvatar").src = avatarUrl;
+                document.getElementById("displayNameText").innerText = displayName;
+                document.getElementById("usernameText").innerText = "@" + name;
+
+                // Key Üretimi (Lua tarafındaki algoritmanın birebir aynısı)
+                const currentTime = Math.floor(Date.now() / 1000);
+                const timeBlock = Math.floor(currentTime / (6 * 3600));
+                const secret = "MOON_HUB_SECRET_SALT_2026";
+                
+                const str = timeBlock + "_" + userId + "_" + secret;
+                const hash = computeHash(str);
+                const keyHex = hash.toString(16).toUpperCase();
+                const finalKey = "MOON-" + keyHex;
+
+                document.getElementById("keyOutput").innerText = finalKey;
+                document.getElementById("resultArea").classList.remove("hidden");
+                
+                startTimer(timeBlock);
+
+            } catch (err) {
+                errorMsg.innerText = "Verification failed. Please check your connection.";
+                errorMsg.classList.remove("hidden");
+            }
+
+            generateBtn.innerText = "Verify & Generate Key";
+            generateBtn.disabled = false;
         }
 
         let timerInterval = null;
         function startTimer(timeBlock) {
             if (timerInterval) clearInterval(timerInterval);
 
-            const blockDuration = 6 * 3600; // 6 saat (saniye cinsinden)
+            const blockDuration = 6 * 3600;
             const nextBlockTime = (timeBlock + 1) * blockDuration;
 
             function update() {
@@ -145,7 +207,6 @@
                 const btn = event.target;
                 const originalText = btn.innerText;
                 btn.innerText = "Copied!";
-                btn.bg = "bg-emerald-600";
                 setTimeout(() => {
                     btn.innerText = originalText;
                 }, 1500);
