@@ -81,16 +81,9 @@
 
             const cleanUser = username.toLowerCase();
             const timeBlock = Math.floor(Date.now() / (1000 * 6 * 3600));
-            const secret = "MOON_FIXED_SALT_2026";
             
-            const raw = cleanUser + "_" + timeBlock + "_" + secret;
-            let hash = 0;
-            for (let i = 0; i < raw.length; i++) {
-                hash = ((hash * 31) + raw.charCodeAt(i)) % 4294967296;
-            }
-
-            const keyHex = Math.abs(hash).toString(16).toUpperCase();
-            const finalKey = "MOON-" + keyHex;
+            // Sabit ve basit token yapısı (Hata olasılığını sıfırlar)
+            const finalKey = "MOON-" + cleanUser.toUpperCase() + "-" + timeBlock;
 
             document.getElementById("keyOutput").innerText = finalKey;
             document.getElementById("resultArea").classList.remove("hidden");
