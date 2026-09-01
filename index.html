@@ -1,262 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Hub | Script & Key Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Key System & Dashboard</title>
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Ana Konteyner */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Glassmorphism Kart Yapısı */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Header & Discord Butonu */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-box h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #5865F2;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-btn:hover {
+            background: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        /* İstatistik Kartları Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .online .stat-icon { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .clicks .stat-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .keys .stat-icon { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+
+        .stat-info h3 {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-info .counter {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* Ana İçerik / Key Al Butonu */
+        .main-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .main-content h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .main-content p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+        }
     </style>
 </head>
-<body class="bg-[#0f0f16] text-white min-h-screen py-12 px-4 selection:bg-purple-500 selection:text-white flex items-center justify-center">
+<body>
 
-    <div class="w-full max-w-4xl relative">
-        <!-- Glow background effects -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-600/15 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-0 right-10 w-72 h-72 bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <!-- Header -->
-        <div class="text-center mb-12 relative z-10">
-            <h1 class="text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">
-                🌙 Moon Hub Portal
-            </h1>
-            <p class="text-sm text-gray-400 mt-2">Dungeon Quest Reborn • Automation & Security Suite</p>
+    <div class="container">
+        <!-- Üst Başlık ve Discord Bağlantısı -->
+        <div class="glass-card header-section">
+            <div class="title-box">
+                <h1>Key Generation System</h1>
+            </div>
+            <a href="https://discord.gg/CTRZp2gJpJ" target="_blank" class="discord-btn">
+                <i class="fa-brands fa-discord"></i> Discord Server
+            </a>
         </div>
 
-        <!-- SECTION 1: Premium Pricing Plans -->
-        <div class="mb-12 relative z-10">
-            <h2 class="text-xl font-bold text-gray-200 mb-6 text-center">Premium Script Access</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                <!-- Daily -->
-                <div class="bg-[#181824] border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/30 transition-all">
-                    <div>
-                        <div class="text-xs font-bold uppercase text-purple-400 tracking-wider">Daily Plan</div>
-                        <div class="text-2xl font-black text-white mt-1">$0.50 <span class="text-xs font-normal text-gray-400">/ day</span></div>
-                        <ul class="text-xs text-gray-400 mt-4 space-y-2">
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> No Ads/Linkvertise</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Auto-Farm & Bypass</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> 24 Hours Access</li>
-                        </ul>
-                    </div>
-                    <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" 
-                       class="mt-6 block text-center w-full py-2.5 bg-white/5 hover:bg-purple-600/20 border border-white/10 hover:border-purple-500/50 text-purple-300 font-semibold text-xs rounded-xl transition-all">
-                        Buy via Discord
-                    </a>
+        <!-- İstatistik Kutuları -->
+        <div class="stats-grid">
+            <!-- Aktif Ziyaretçi -->
+            <div class="glass-card stat-card online">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-users"></i>
                 </div>
-
-                <!-- Weekly -->
-                <div class="bg-[#181824] border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/30 transition-all">
-                    <div>
-                        <div class="text-xs font-bold uppercase text-purple-400 tracking-wider">Weekly Plan</div>
-                        <div class="text-2xl font-black text-white mt-1">$2.50 <span class="text-xs font-normal text-gray-400">/ week</span></div>
-                        <ul class="text-xs text-gray-400 mt-4 space-y-2">
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> No Ads / Instant Access</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Premium Discord Role</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Fast Auto-Dungeon</li>
-                        </ul>
-                    </div>
-                    <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" 
-                       class="mt-6 block text-center w-full py-2.5 bg-white/5 hover:bg-purple-600/20 border border-white/10 hover:border-purple-500/50 text-purple-300 font-semibold text-xs rounded-xl transition-all">
-                        Buy via Discord
-                    </a>
+                <div class="stat-info">
+                    <h3><span class="pulse-dot"></span>Aktif Kişi</h3>
+                    <div class="counter" id="online-count">12</div>
                 </div>
-
-                <!-- Monthly (Highlighted) -->
-                <div class="bg-[#1c1a2e] border border-purple-500/40 rounded-2xl p-6 flex flex-col justify-between relative shadow-xl shadow-purple-900/10 scale-105">
-                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-widest">Popular</span>
-                    <div>
-                        <div class="text-xs font-bold uppercase text-purple-300 tracking-wider">Monthly Plan</div>
-                        <div class="text-2xl font-black text-white mt-1">$6.50 <span class="text-xs font-normal text-gray-400">/ month</span></div>
-                        <ul class="text-xs text-gray-300 mt-4 space-y-2">
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Priority Auto-Update</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> VIP Webhook Logs</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> 24/7 Priority Support</li>
-                        </ul>
-                    </div>
-                    <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" 
-                       class="mt-6 block text-center w-full py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-purple-600/30 transition-all">
-                        Buy via Discord
-                    </a>
-                </div>
-
-                <!-- Lifetime -->
-                <div class="bg-[#181824] border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/30 transition-all">
-                    <div>
-                        <div class="text-xs font-bold uppercase text-indigo-400 tracking-wider">Lifetime</div>
-                        <div class="text-2xl font-black text-white mt-1">$15.00 <span class="text-xs font-normal text-gray-400">/ forever</span></div>
-                        <ul class="text-xs text-gray-400 mt-4 space-y-2">
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> One-time Payment</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> All Future Features</li>
-                            <li class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Exclusive Tester Role</li>
-                        </ul>
-                    </div>
-                    <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" 
-                       class="mt-6 block text-center w-full py-2.5 bg-white/5 hover:bg-purple-600/20 border border-white/10 hover:border-purple-500/50 text-purple-300 font-semibold text-xs rounded-xl transition-all">
-                        Buy via Discord
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- SECTION 2: Free Key System Generator -->
-        <div class="max-w-md mx-auto p-8 bg-[#181824] border border-white/5 rounded-2xl shadow-2xl relative z-10 backdrop-blur-xl">
-            <div class="text-center mb-6">
-                <h3 class="text-lg font-bold text-gray-200">Free Tier Key System</h3>
-                <p class="text-xs text-gray-400 mt-1">Free keys last for 6 hours and require manual refresh.</p>
             </div>
 
-            <!-- Form -->
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Roblox Username</label>
-                    <input type="text" id="userIdInput" placeholder="Enter your Username..." 
-                        class="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-purple-500 transition-all text-white placeholder-gray-600">
+            <!-- Toplam Tıklama -->
+            <div class="glass-card stat-card clicks">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-mouse-pointer"></i>
                 </div>
-
-                <button type="button" id="generateBtn" 
-                    class="w-full py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 font-semibold text-sm rounded-xl transition-all cursor-pointer">
-                    Generate Free Key
-                </button>
+                <div class="stat-info">
+                    <h3>Toplam Tıklama</h3>
+                    <div class="counter" id="clicks-count">1,420</div>
+                </div>
             </div>
 
-            <!-- Output Area -->
-            <div id="resultArea" class="mt-6 hidden space-y-4 pt-6 border-t border-white/5">
-                <div>
-                    <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Your Active Free Key</span>
-                    <div class="flex items-center justify-between bg-[#111118] border border-purple-500/30 rounded-xl p-3">
-                        <code id="keyOutput" class="text-purple-400 font-mono font-bold tracking-wider text-sm select-all">MOON-XXXX</code>
-                        <button type="button" id="copyBtn" class="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 text-xs font-semibold rounded-lg transition-all cursor-pointer">
-                            Copy
-                        </button>
-                    </div>
+            <!-- Alınan Key Sayısı -->
+            <div class="glass-card stat-card keys">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-key"></i>
                 </div>
-
-                <!-- Timer -->
-                <div class="bg-[#111118]/60 border border-white/5 rounded-xl p-3.5 flex items-center justify-between">
-                    <div>
-                        <div class="text-[10px] uppercase font-bold tracking-wider text-gray-500">Key Status</div>
-                        <div class="text-xs font-medium text-emerald-400 mt-0.5 flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Free Session
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-[10px] uppercase font-bold tracking-wider text-gray-500">Expires In</div>
-                        <div id="timerOutput" class="text-xs font-mono font-bold text-gray-300 mt-0.5">06:00:00</div>
-                    </div>
+                <div class="stat-info">
+                    <h3>Alınan Key</h3>
+                    <div class="counter" id="keys-count">854</div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="mt-12 text-center relative z-10">
-            <p class="text-xs text-gray-500">Need help or want to buy via custom payment methods? Join our <a href="https://discord.gg/YOUR_DISCORD_INVITE" class="text-purple-400 underline hover:text-purple-300">Discord Server</a>.</p>
+        <!-- Ana Etkileşim Alanı -->
+        <div class="glass-card main-content">
+            <h2>Anahtar Almak İçin Butona Tıklayın</h2>
+            <p>Sistem otomatik olarak doğrulama yapıp keyinizi üretecektir.</p>
+            <button class="action-btn" id="get-key-btn">Get Key</button>
         </div>
     </div>
 
+    <!-- Canlı Sayaçlar İçin JavaScript Scripti -->
     <script>
-        function computeHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            return Math.abs(hash);
-        }
+        // Başlangıç değerleri
+        let onlineUsers = 14;
+        let totalClicks = 1420;
+        let keysGenerated = 854;
 
-        function generateKey() {
-            const inputField = document.getElementById("userIdInput");
-            if (!inputField) return;
-            
-            const inputVal = inputField.value.trim().toLowerCase();
-            if (!inputVal) {
-                alert("Please enter a valid Roblox Username!");
-                return;
-            }
+        const onlineElem = document.getElementById('online-count');
+        const clicksElem = document.getElementById('clicks-count');
+        const keysElem = document.getElementById('keys-count');
+        const getKeyBtn = document.getElementById('get-key-btn');
 
-            const currentTime = Math.floor(Date.now() / 1000);
-            const timeBlock = Math.floor(currentTime / (6 * 3600));
-            const secret = "MOON_HUB_SECRET_SALT_2026";
-            
-            const str = timeBlock + "_" + inputVal + "_" + secret;
-            const hash = computeHash(str);
-            const keyHex = hash.toString(16).toUpperCase();
-            const finalKey = "MOON-" + keyHex;
-
-            const keyOutput = document.getElementById("keyOutput");
-            const resultArea = document.getElementById("resultArea");
-
-            if (keyOutput) keyOutput.innerText = finalKey;
-            if (resultArea) resultArea.classList.remove("hidden");
-
-            startTimer(timeBlock);
-        }
-
-        let timerInterval = null;
-        function startTimer(timeBlock) {
-            if (timerInterval) clearInterval(timerInterval);
-
-            const blockDuration = 6 * 3600; 
-            const nextBlockTime = (timeBlock + 1) * blockDuration;
-
-            function update() {
-                const now = Math.floor(Date.now() / 1000);
-                const timeLeft = nextBlockTime - now;
-
-                const timerOutput = document.getElementById("timerOutput");
-                if (!timerOutput) return;
-
-                if (timeLeft <= 0) {
-                    timerOutput.innerText = "EXPIRED (Refresh)";
-                    clearInterval(timerInterval);
-                    return;
-                }
-
-                const hours = Math.floor(timeLeft / 3600);
-                const minutes = Math.floor((timeLeft % 3600) / 60);
-                const seconds = timeLeft % 60;
-
-                timerOutput.innerText = 
-                    String(hours).padStart(2, '0') + ":" + 
-                    String(minutes).padStart(2, '0') + ":" + 
-                    String(seconds).padStart(2, '0');
-            }
-
-            update();
-            timerInterval = setInterval(update, 1000);
-        }
-
-        function copyKey() {
-            const keyOutput = document.getElementById("keyOutput");
-            const btn = document.getElementById("copyBtn");
-            if (!keyOutput || !btn) return;
-
-            const keyText = keyOutput.innerText;
-
-            navigator.clipboard.writeText(keyText).then(() => {
-                const originalText = btn.innerText;
-                btn.innerText = "Copied!";
-                btn.classList.add("bg-emerald-600", "text-white");
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.classList.remove("bg-emerald-600", "text-white");
-                }, 1500);
-            }).catch(err => {
-                console.error("Kopyalama başarısız:", err);
-            });
-        }
-
-        document.getElementById("generateBtn").addEventListener("click", generateKey);
-        document.getElementById("copyBtn").addEventListener("click", copyKey);
-        document.getElementById("userIdInput").addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
-                generateKey();
+        // Sayfa tıklandığında tıklama sayısını artıralım
+        document.body.addEventListener('click', (e) => {
+            // Butona tıklanmadıysa sadece genel tıklamayı artır
+            if(e.target !== getKeyBtn) {
+                totalClicks++;
+                clicksElem.innerText = totalClicks.toLocaleString();
             }
         });
+
+        // Key Alma Butonuna Tıklandığında
+        getKeyBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Genel tıklamayı çift tetiklememek için
+            totalClicks++;
+            keysGenerated++;
+            
+            clicksElem.innerText = totalClicks.toLocaleString();
+            keysElem.innerText = keysGenerated.toLocaleString();
+
+            alert("Key oluşturma işlemine yönlendiriliyorsunuz!");
+        });
+
+        // Aktif Kişi Sayısını Rastgele Güncelleme (Gerçekçi görünüm)
+        setInterval(() => {
+            const change = Math.floor(Math.random() * 3) - 1; // -1, 0, veya +1
+            onlineUsers = Math.max(3, onlineUsers + change);
+            onlineElem.innerText = onlineUsers;
+        }, 4000);
     </script>
 </body>
 </html>
